@@ -1,6 +1,6 @@
 # Light2D
 
-This project illustrates light rendering in 2D with C++. Use ray tracing method to render circle and relize reflection.
+This project illustrates light rendering in 2D with C++. Use ray tracing method to render circle and realize reflection.
 
 All image output PNGs with svpng
 

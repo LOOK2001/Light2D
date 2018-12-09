@@ -14,7 +14,8 @@ struct Vector2
 	Vector2 operator+(const Vector2 &v) const	{ return{ x + v.x, y + v.y }; }
 	Vector2 operator-(const Vector2 &v) const	{ return{ x - v.x, y - v.y}; }
 	Vector2 operator-()	const					{ return{ -x, -y }; }
-	float operator*(const Vector2 &v) const		{ return{ x*v.x + y*v.y }; }// dot product
+	// dot product
+	float operator*(const Vector2 &v) const		{ return{ x*v.x + y*v.y }; }
 	Vector2 operator*(const float &f) const		{ return{ x*f, y*f }; }
 	Vector2 operator/(const float &f) const		{ return{ x / f, y / f }; }
 	float length2() const						{ return{ x*x + y*y }; }
@@ -44,8 +45,10 @@ struct  Point
 	Point() :x(0), y(0) {}
 	Point(float x, float y) :x(x), y(y) {}
 	Point operator+(const Vector2 &v) const { return{ x + v.x, y + v.y }; }
+	Point operator+(const Point p)	  const { return{ x + p.x, y + p.y }; }
 	Vector2 operator-(const Point &p) const { return Vector2( x - p.x, y - p.y ); }
 	Point operator-(const Vector2 &v) const { return{ x - v.x, y - v.y }; }
+	Point operator/(const float &f) const { return{ x/f, y/f }; }
 	bool IsValid()	{ return(x >= 0.f && x <= 1.f && y > 0.f && y < 1.f); }
 };
 

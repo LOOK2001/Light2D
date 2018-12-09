@@ -1,24 +1,20 @@
 #pragma once
 
-#include "common.h"
+#include "basic.h"
 
 class Shape
 {
 public:
 	Shape() {}
 	~Shape() {}
-	// 判断是否相交
+	// if intersect with ray
 	virtual bool Intersect(const Point &p, const Vector2 &d) = 0;
-	// 判断是否相交并求交点
+	// if intersect with ray, and compute a ray-circle intersection
 	virtual bool Intersect(const Point &p, const Vector2 &d, Point& inter) = 0;
-	// 判断是否在shape内部
+	// if the point inside the shape
 	virtual bool IsInside(const Point &p) = 0;
-	// 获取边界上的点所在位置的法线
+	// get the normal of the point
 	virtual Vector2 GetNormal(const Point &p) = 0;
-	// 是否在边界上
-	virtual bool IsOnBoundary(const Point &p) = 0;
-	// 是否在包围盒内部
-	virtual bool Contained(const float &left, const float &right, const float &up, const float &down) { return false; }
 };
 
 class Circle :public Shape
@@ -30,29 +26,28 @@ public:
 	Circle(Point o, float r) :center(o), radius(r) {}
 	Point GetCenter() { return center; }
 	float GetRadius() { return radius; }
-	bool IsInside(const Point &p)
+	// if the point inside the circle
+	virtual bool IsInside(const Point &p)
 	{
 		return (center - p).length() <= radius;
 	}
-	Vector2 GetNormal(const Point &p)
+	// get the normal of the point
+	virtual Vector2 GetNormal(const Point &p)
 	{
 		return (p - center).normalize();
 	}
-	bool IsOnBoundary(const Point &p)
+	// if the ray intersect with the circle
+	virtual bool Intersect(const Point &p, const Vector2 &d)
 	{
-		return fabs((center - p).length() - radius) <= EPSILON;
-	}
-	bool Intersect(const Point &p, const Vector2 &d)	//求p出发的d方向射线与Circle是否相交
-	{
-		if (IsInside(p)) return true;	//在圆内侧必然相交
-		float proj = (center - p)*d;		//向量po在射线上垂足的距离
-		if (proj <= 0) return false;	//反向射线
-		Point foot = p + d * proj;		//垂足位置
-		float dis = (center - foot).length(); //圆心到垂足的距离
+		if (IsInside(p)) return true;			//if the point inside the circle, then intersect
+		float proj = (center - p)*d;			//projection distance of vector po on ray
+		if (proj <= 0) return false;			//direction of reflection
+		Point foot = p + d * proj;				//foot position
+		float dis = (center - foot).length();	//the distance between foot and circle center
 		return dis < radius;
 	}
 	// Compute a ray-circle intersection
-	bool Intersect(const Point &p, const Vector2 &d, Point &inter)
+	virtual bool Intersect(const Point &p, const Vector2 &d, Point &inter)
 	{
 		if (IsInside(p))
 		{
@@ -63,18 +58,14 @@ public:
 			inter = foot + d*dis2;
 			return true;
 		}
-		float proj = (center - p)*d;					//向量po在射线上垂足的距离
-		if (proj <= 0) return false;				//反向射线
-		Point foot = p + d * proj;					//垂足位置
-		float dis1 = (center - foot).length();			//圆心到垂足的距离
+		float proj = (center - p)*d;				//projection distance of vector po on ray
+		if (proj <= 0) 
+			return false;							//no intersection
+		Point foot = p + d * proj;					//foot position
+		float dis1 = (center - foot).length();		//the distance between foot and circle center
 		if (dis1 > radius)return false;
-		float dis2 = sqrt(radius*radius - dis1*dis1);
-		inter = foot - d*dis2;
+		float dis2 = sqrt(radius*radius - dis1*dis1);//distance between foot and intersection
+		inter = foot - d*dis2;						//position of intersection
 		return true;
-	}
-	bool Contained(const float &left, const float &right, const float &up, const float &down)
-	{
-		return(center.x - radius > left) && (center.x + radius < right)
-			&& (center.y - radius > up) && (center.y + radius < down);
 	}
 };

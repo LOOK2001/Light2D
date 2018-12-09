@@ -1,5 +1,5 @@
 #include "svpng.inc"
-#include "common.h"
+#include "basic.h"
 #include "Scene.h"
 #include <math.h>
 #include <time.h>
@@ -12,12 +12,6 @@ using namespace std;
 #define H 512
 
 unsigned char img[W * H * 3];
-
-typedef struct 
-{ 
-	float sd;
-	Color emissive; 
-} Result;
 
 Scene* CreateNewScene()
 {
@@ -50,9 +44,6 @@ void render(Scene *scene)
 		for (int x = 0; x < W; x++, p += 3)
 		{
 			color = scene->Sample(Point( (float)x / W, (float)y / H ));
-			color.r = color.r > 0.0f ? color.r : 0.0f;
-			color.g = color.g > 0.0f ? color.g : 0.0f;
-			color.b = color.b > 0.0f ? color.b : 0.0f;
 			p[0] = (int)(fminf((color.r * 255.0f), 255.0f));
 			p[1] = (int)(fminf((color.g * 255.0f), 255.0f));
 			p[2] = (int)(fminf((color.b * 255.0f), 255.0f));
