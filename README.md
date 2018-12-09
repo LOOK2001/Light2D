@@ -6,7 +6,9 @@ All image output PNGs with svpng
 
 ## Example
 
-![](basic.png)
+![](example.png)
+
+![](example.png)
 
 ## Built With
 
