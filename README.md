@@ -8,7 +8,7 @@ All image output PNGs with svpng
 
 ![](example.png)
 
-![](example.png)
+![](example1.png)
 
 ## Built With
 
