@@ -4,6 +4,8 @@ This project illustrates light rendering in 2D with C++. Use ray tracing method 
 
 All image output PNGs with svpng
 
+Curves_01.exe has been added to [/bin](https://github.com/LOOK2001/Light2D/tree/master/bin) (only for 64 bit on Windows)
+
 ## Example
 
 ![](example.png)
