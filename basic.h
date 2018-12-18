@@ -49,7 +49,6 @@ struct  Point
 	Vector2 operator-(const Point &p) const { return Vector2( x - p.x, y - p.y ); }
 	Point operator-(const Vector2 &v) const { return{ x - v.x, y - v.y }; }
 	Point operator/(const float &f) const { return{ x/f, y/f }; }
-	bool IsValid()	{ return(x >= 0.f && x <= 1.f && y > 0.f && y < 1.f); }
 };
 
 struct Color
